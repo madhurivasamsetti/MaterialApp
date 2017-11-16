@@ -199,14 +199,14 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
 
-
         TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
         TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
         bylineView.setMovementMethod(new LinkMovementMethod());
         TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
 
 
-        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
+        bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Roboto-Regular.ttf"));
+        titleView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Roboto-Medium.ttf"));
 
         if (mCursor != null) {
             mCollapsingToolbar.setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
@@ -251,7 +251,7 @@ public class ArticleDetailFragment extends Fragment implements
 
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-
+                            Log.e(TAG,volleyError.getMessage());
                         }
                     });
         } else {

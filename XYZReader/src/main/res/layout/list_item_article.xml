@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardUseCompatPadding="true"
-    app:cardElevation="2dp"
+    app:cardElevation="@dimen/card_elevation"
     android:foreground="?selectableItemBackground">
 
     <LinearLayout
@@ -23,24 +23,24 @@
             android:id="@+id/article_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="4dp"
+            android:paddingLeft="@dimen/mainScreen_padding"
+            android:paddingTop="@dimen/mainScreen_padding"
+            android:paddingRight="@dimen/mainScreen_padding"
+            android:paddingBottom="@dimen/mainScreen_title_bottom_padding"
             android:textColor="@android:color/black"
             android:ellipsize="end"
-            android:textSize="16sp"
+            android:textSize="@dimen/mainScreen_title_size"
             android:maxLines="4" />
 
         <TextView
             android:id="@+id/article_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
+            android:paddingLeft="@dimen/mainScreen_padding"
+            android:paddingRight="@dimen/mainScreen_padding"
+            android:paddingBottom="@dimen/mainScreen_padding"
             android:textColor="@android:color/black"
-            android:textSize="12sp"
+            android:textSize="@dimen/mainScreen_subtitle_size"
             android:maxLines="2"
             android:ellipsize="end" />
     </LinearLayout>
