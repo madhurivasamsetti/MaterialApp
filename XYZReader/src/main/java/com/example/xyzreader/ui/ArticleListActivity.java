@@ -82,7 +82,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         registerReceiver(mRefreshingReceiver,
                 new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
         LocalBroadcastManager.getInstance(this).registerReceiver(
-                internetStatusReceiver,
+                connectionStatusReceiver,
                 new IntentFilter(UpdaterService.BROADCAST_ACTION_INTERNET_CONNECTION));
     }
 
@@ -90,7 +90,7 @@ public class ArticleListActivity extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mRefreshingReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(internetStatusReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(connectionStatusReceiver);
     }
 
     private boolean mIsRefreshing = false;
@@ -104,7 +104,7 @@ public class ArticleListActivity extends AppCompatActivity implements
             }
         }
     };
-    private BroadcastReceiver internetStatusReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver connectionStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Snackbar.make(
