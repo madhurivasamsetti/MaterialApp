@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -27,6 +28,8 @@ public class UpdaterService extends IntentService {
             = "com.example.xyzreader.intent.action.STATE_CHANGE";
     public static final String EXTRA_REFRESHING
             = "com.example.xyzreader.intent.extra.REFRESHING";
+    public static final String BROADCAST_ACTION_INTERNET_CONNECTION
+            = "com.example.xyzreader.intent.action.INTERNET_CONNECTION";
 
     public UpdaterService() {
         super(TAG);
@@ -40,6 +43,8 @@ public class UpdaterService extends IntentService {
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null || !ni.isConnected()) {
             Log.w(TAG, "Not online, not refreshing.");
+            Intent Intent = new Intent(BROADCAST_ACTION_INTERNET_CONNECTION);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent);
             return;
         }
 

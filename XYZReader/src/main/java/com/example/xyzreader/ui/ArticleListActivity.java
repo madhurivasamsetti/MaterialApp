@@ -9,6 +9,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +47,7 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private CoordinatorLayout mCoordinatorLayout;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
@@ -57,7 +61,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
 
-
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -77,12 +81,16 @@ public class ArticleListActivity extends AppCompatActivity implements
         super.onStart();
         registerReceiver(mRefreshingReceiver,
                 new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                internetStatusReceiver,
+                new IntentFilter(UpdaterService.BROADCAST_ACTION_INTERNET_CONNECTION));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(mRefreshingReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(internetStatusReceiver);
     }
 
     private boolean mIsRefreshing = false;
@@ -96,9 +104,21 @@ public class ArticleListActivity extends AppCompatActivity implements
             }
         }
     };
-
+    private BroadcastReceiver internetStatusReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Snackbar.make(
+                    mCoordinatorLayout,
+                    R.string.action_noConnection,
+                    Snackbar.LENGTH_SHORT).show();
+        }
+    };
     private void updateRefreshingUI() {
         mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
+        Snackbar.make(
+                mCoordinatorLayout,
+                R.string.action_updating,
+                Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
